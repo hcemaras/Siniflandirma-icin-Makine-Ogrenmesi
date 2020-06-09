@@ -1,0 +1,13 @@
+# Sonuç {-}
+
+İzmir ili Torbalı ilçesinde plastik masa örtüsü üretimi gerçekleştiren SANEM Plastik A.Ş. adlı fabrikadan 2018-2019 yılları arasında alınan 198 veri ile makine öğrenimi algoritmalarını kullanarak saat ve üretim ve değişkenlerinin OEE puanı üzerindeki etkileri, lojistik regresyon ve CART algoritmaları üzerinden modeller kurulmuştur. Kurulan lojistik regresyon modelinde saat ve üretim değişkenleri modelde anlamlı çıkmıştır. CART modelinde ise en önemli değişkenin üretim olduğu tespit edilmiştir. 
+
+Modellerimizin iki büyük kısıtlaması vardır. Biri değişken sayısı diğeri ise örneklem sayısının azlığıdır. Bu amaçla modellemede değişken sayısını artırıp modelin nasıl değiştiğini görmek için verilerimize simülasyon çalışması ile makineyi çalıştıran kişinin tecrübesi(10 yıldan az&10 yıl ve daha fazla olarak belirlenmiş kategorik değişken) eklenmiştir.
+
+Son eklenen veriler ile lojistik regresyon modelimizde saat, üretim ve tecrübe değişkenlerinin anlamlı, CART modelinde ise en önemli değişkenin üretim olduğu, sonra tecrübe en son olarak da saat olduğu bulunmuştur.
+
+Bu çalışma ile üretim yapan fabrikaların verisinde makine öğrenimi kapsamında yer alan sınıflandırma modellerinden lojistik regresyon ve CART modellerinin uygulanabilirliği tespit edilmiştir. Bu tip verilerde değişik sınıflandırma algoritmaları da kullanılabilir. Ayrıca bu algoritmaların performansları da karşılaştırılabilir.
+
+Fabrikadaki uzmanlarla yapılan ortak çalışmalarla bu tespitin farklı veri türlerinde ve
+farklı modellerle yapılması planlanmalıdır. Böylece sanayi-üniversite işbirliği
+gerçekleşmesi sağlanabilir.

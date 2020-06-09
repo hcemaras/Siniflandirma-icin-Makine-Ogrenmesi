@@ -1,0 +1,3 @@
+Projemizde kullanilan veriler 2018-2019 yillari arasini kapsamaktadir. Izmir ili Torbali ilçesinde plastik masa örtüsü üreten SANEM PLASTIK firmasina ait bir fabrikadan alinmistir. Alinan veriler üzerinde makine ögrenimi algoritmalarini kullanarak modeller olusturulmustur. Amaç bu modellerden elde edilen bilgilere dogrultusunda fabrikanin verimliligini arttirmaktir.
+\
+**Anahtar Kelimeler:** : Makine Ögrenmesi, Siniflandirma, Lojistik Regresyon, CART, Karar Agaçlari

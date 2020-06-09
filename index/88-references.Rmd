@@ -1,0 +1,52 @@
+<!--
+The bib chunk below must go last in this document according to how R Markdown renders.  More info is at http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
+-->
+
+\backmatter
+
+<!-- 
+If you'd like to change the name of the bibliography to something else,
+delete "References" and replace it.
+-->
+
+# Kaynaklar {-}
+
+<!--
+This manually sets the header for this unnumbered chapter.
+-->
+\markboth{References}{References}
+<!--
+To remove the indentation of the first entry.
+-->
+<!-- \noindent -->
+
+<div id="refs"></div> <!--Kaynaklarin eklerden sonra gelmesi için ! -->
+<!--
+To create a hanging indent and spacing between entries.  These three lines may need to be removed for styles that don't require the hanging indent.
+-->
+
+\setlength{\parindent}{-0.20in}
+\setlength{\leftskip}{0.20in}
+\setlength{\parskip}{8pt}
+
+
+<!--
+This is just for testing with more citations for the bibliography at the end.  Add other entries into the list here if you'd like them to appear in the bibliography even if they weren't explicitly cited in the document.
+-->
+
+---
+nocite: | 
+  @angel2000, @angel2001a, @angel2001b, @wong1999
+...
+
+Atalay M., Çelik E., 2017, Artificial İntelligence And Machine Learning Applications İn Big Data Analysis
+
+Özkaya A., 2012, Makine Öğrenmesi İle Ürün Sınıflandırma İncelemesi 
+
+KALAYCI E., 2018, Comparison of machine learning techniques for classification of phishing web sites
+
+Abbas G., Shirali M., Moloud V., Amal S., 2018, Predicting the outcome of occupational accidents by CART and CHAID methods at a steel factory in Iran 
+
+Yan-yan S., Ying L., 2015, Decision tree methods: applications for classification and prediction 
+
+Antipov E., Pokryshevskaya E., 2009, Applying CHAID for logistic regression diagnostics and classification accuracy improvement

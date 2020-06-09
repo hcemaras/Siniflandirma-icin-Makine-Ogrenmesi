@@ -1,0 +1,161 @@
+# Makine Öğrenmesi
+
+Makine öğrenmesi, insanların ve hayvanların doğal olarak sahip olduğu, geçmiş deneyimlerden öğrenme yeteneğini, makinelere veriden öğrenme yoluyla uygulayan, temelde algoritmalara, matematiğe ve istatistiğe dayanan bir veri analitiği yöntemidir.
+
+
+
+Makine öğrenmesi, insanlar tarafından kolaylıkla anlaşılabilecek, basit sınıflandırıcı ifadeler üretmeyi amaçlar. Bunu yaparken de arka planda istatistiksel yöntemleri kullanır (Michie, Spiegelhalter ve Taylor, 1994, s.3).
+
+
+
+Makine öğrenmesi sayesinde, önceki tecrübelere veya örnek veri setlerine dayanan bir işlemi optimize etmek için bilgisayarlar programlanabilmektedir. İstenen sınıflandırmalar bilgisayarda kısa sürede ve etkili bir şekilde yapılabilir, bu süreçler sonunda bir model oluşturulur ve bu model geleceğe yönelik öngörülerde bulunabilir veya denetim amacıyla kullanılabilmektedir.
+
+
+
+Modelde hangi öğrenme yönteminin seçileceği veri setine ve hipoteze bağlı olarak değişebilmektedir. Problem çözme ve algoritma tasarımında kullanılan, “Problemi küçük parçalara ayırarak problemle baş etme", bu noktada kullanabilecek önemli bir çözüm yaklaşımıdır.
+
+
+
+Brownlee (2014), makine öğrenmesi problemlerinin adım adım çözümünde kullanılabilecek uygulamalı makine öğrenmesi süreci sunmuştur: 
+
+1. Problem Tanımı 
+2. Veri Analizi 
+3. Veri Hazırlama 
+4. Algoritma Seçimi
+5. Sonuçların İyileştirilmesi
+
+
+
+## Problem Tanımı
+
+Makine öğrenmesi çalışmalarında bir algoritma tasarımı yapmaya başlamadan önce problemin daha iyi anlaşılması için bazı sorulara cevap verilmesi gerekir. Bunlar:
+
+1. Problem nedir?
+
+2. Çözülmesi durumunda getirileri nelerdir?
+
+3. Nasıl çözülebilir?
+
+
+
+### Problem Nedir?
+
+Problemin tam olarak ne olduğu (tanımı), hangi parametrelerin kullanılması gerektiği, hangi veriler ile çalışılması gerektiği, sonuçların nasıl test edileceği mutlaka en başta belirlenmelidir. 
+
+
+
+### Çözülmesi Durumunda Getirileri Nelerdir?
+
+Problem istenilen ölçüde çözüldüğü durumda, getirilerinin (faydaların) neler olacağı ortaya konulmalıdır. Çözümün sağlayacağı faydalara ek olarak, çözümün nasıl kullanılacağı da ayrıca listelenmelidir. Daha sonra, problemin karmaşıklığı ile elde edilecek getirilerin (kazanımların) oranı hesaplanmalıdır. Buradaki amaç, çok ciddi getirileri olmayan, karmaşık ve çözülmesi çok zor olan veya getirisinin maliyetinden büyük olan bir problem olup olmadığının tespit edilmesidir. 
+
+
+
+### Nasıl Çözülebilir?
+
+Problemi çözmek için öncelikle aşağıdaki sorulara cevap verilmelidir: 
+
+* Gerekli veriler neler?
+* Bu veriler nasıl toplanmalı? 
+* Veriler nerede saklanmalı? 
+* Verilerin değişim hızı nedir? 
+
+
+
+Daha sonra, verilerin ön işleme adımlarının neler olacağı ve verinin nasıl hazırlanacağı düşünülmelidir. Son olarak ise nasıl bir veri bilimi yaklaşımının ya da algoritmanın kullanılması gerektiği üzerinde araştırma yapılmalıdır.
+
+
+
+## Veriyi Anlama
+
+Makinenin deneyim olarak yararlanacağı veri, ele alınan probleme uygun bir biçimde temin edilir. Veri toplama aşamasında farklı kaynaklardan yararlanılabilmektedir. Bunlardan biri ele alınan probleme özgü orijinal veri setlerinin araştırmacılar tarafından oluşturulmasıdır. Bir diğeri ise internette yer alan hazır veri setleridir. Bu veri setleri, erişim ve kullanım kolaylığı bakımından makine öğrenmesi çalışmalarına avantaj sağlamaktadır. University of California, Irvine (UCI) Machine Learning Repository (Lichman, 2013 s, 45), Machine Learning Dataset Repository (Braun ve diğ., 2015 s, 102) web sayfalarından bu gibi paylaşıma açılan veri setlerine erişmek mümkündür.
+
+
+
+Verinin analizler için hazırlaması belki de makine öğrenmesi sürecinin en zaman alıcı aşaması olarak kabul edilebilir. Modelin kurulmasından önce mevcut verinin iyi anlaşılması ve iyi analiz edilmesi gerekmektedir. Veri seti temin edildikten sonra veri hakkında ön fikir edinilmesi için bazı basit istatistiksel hesaplamalar yapılabilir ve grafikler çizilebilir. Niteliklerin kategorik ya da nümerik olmasına göre maksimum, minimum, mod, medyan, ortalama ya da kartil hesaplamaları yapılabilir, nitelikler kutu grafiği (box and whisker plot), histogram, sütun ve pasta grafikleri ile görselleştirilebilir. Tüm bu işlemler, veri ön-işleme sürecinde hangi analizlerin gerçekleştirilmesi gerektiği hakkında da bilgi sunmaktadır.
+
+
+
+## Veri Hazırlama
+
+
+
+Veri hazırlama, makine öğrenmesi projelerinin en önemli ve zaman alan aşamalarından birisidir. Hazırlanan veri, eğitilecek algoritmanın temel yapı taşı olacaktır. İlk olarak, tahmin yapmak istenilen durumu en iyi anlatan parametrelerden oluşan bir veri seti seçilmelidir. Daha sonra, veri setinde yapılacak ön işlemeler ye dönüşümler, algoritmaya uygun bir şekilde gerçekleştirilmelidir. Veri hazırlama aşamasını 3 adımda incelemek mümkündür:
+
+* Veri Seçimi 
+
+* Veri Ön İşleme (Pre-processing) 
+
+* Veri Dönüştürme
+
+
+
+### Veri Seçimi
+
+
+
+Veri seçimi, ham veri içerisinde projede tanımlanmış problemle ilgili olan değişkenlerden yeni bir veri seti oluşturulmalıdır. Bu veri seti, istatistiksel hesaplamada veya model oluşturmada bir anlam ifade edebilecek kadar büyük olmalıdır. Daha büyük veri daha anlamlıdır denemez. Gerçek hayat problemlerinde verinin yanlış yönde büyümesi, algoritmaların hesaplamasındaki karmaşıklığın artmasına neden olmakla birlikte performansı da olumsuz yönde etkilemektedir.
+
+
+
+Bu nedenle, hedef problemi, direkt veya dolaylı yoldan etkileyen değişkenlerin belirlenmesi birinci önceliktedir. Elde bulunan ham bir veri setinde hedeflenen problemle ilişkisi bulunmayan gereksiz değişkenler de yer alabilir. Bu veriler ilk aşamada yeni veri setinde yer almamalıdır. Daha sonra, elde edilen algoritma sonuçlarına göre dolaylı etkisi olan değişkenler tekrar belirlenip, veri setine dahil edilebilirler.
+
+
+
+### Veri Ön İşleme
+
+
+
+#### Veri Temizleme
+
+
+
+Veri ön işlemenin ilk adımıdır. Bu adımda temel odak, eksik verilerin giderilmesi (doldurma/çıkarma), gürültülü verilerin ayıklanması ve aykırı değerlerin temizlenmesidir.
+
+
+
+Kullanılan veri seti içerisindeki değişkenlerde eksik değerler bulunabilmektedir. Bu değerleri doldurmadan ya da eksik değerlere sahip değişkenleri veri setinden çıkarmadan makine öğrenmesi algoritmaları üzerinde çalışmak hataya neden olabilmektedir. Eksik veri içeren bir veri seti üzerinde uygulanabilecek yöntemlerden bazıları şunlardır:
+
+1. **Eksik Verileri Göz Ardı Etme:** Eksik verinin sayısının, eksik olmayan veri sayısına göre çok düşük olduğu durumlarda, veri setinden eksik verileri tamamen çıkarmak çok fazla anlam kaybettirmeyecektir ve oldukça kolay bir çözüm yönetimidir.
+2. **Eksik Verilerin Elle Doldurulması:** Eksik olan verilerin, veri kaynağına ulaşarak bulunması ve elle veri setine eklenmesi yöntemidir.  Küçük miktardaki eksik veriler için uygulaması mümkün bir yöntem olmakla birlikte eksik veri sayısı ve önemi arttıkça zaman alıcı veya mümkün olmayan bir yönteme dönüşebilmektedir.
+3. **Eksik Veriyi Hesaplama Yöntemleri İle Doldurma:** Eksik veriler, eksik olmayan verilerin ortalama, mod veya medyan değerleri ile doldurulabilmektedir. Verinin yapısı uygun ise bir önceki veya bir sonraki değer ile doldurulabildiği gibi herhangi bir makine öğrenmesi algoritması kullanılarak da tahmini değerler hesaplanarak doldurulabilmektedir.
+
+
+
+### Veri Dönüştürme
+
+Veri hazırlama aşamalarının sonuncusu olan veri dönüştürmede, kullanılacak algoritmaya ve iş alanındaki amaçlara göre farklı yöntemler kullanılabilmektedir. Bu yöntemlerden en yaygın kullanılanları şu şekildedir:
+
+
+
+**Normalleştirme:** Veri setinde yer alan nümerik değerlerin tümü aynı aralıklarda bulunmayabilir. Normalizasyon, verileri aynı ölçeğe, örneğin, 0-1 aralığına indirger (Shalabi, 2006). Bu sayede farklı ölçekteki verilerin birlikte ele alınabilmesi sağlanır. Verilerin dağılımı bilmediği durumlarda kullanmak için iyi bir yöntemdir. Veriler farklı yöntemlerle normalize edilebilmektedir. Bu yöntemlerden bazıları şu şekildedir (Han ve Kamber, 2006, s, 120):
+
+
+
+
+* **Min-Max:**
+$$
+{yeni\_deger}=\frac{deger-min}{max-min}(yeni\_max-yeni\_min)+yeni\_min
+$$
+
+
+
+* **Z-Score:**  
+$$
+AA-yeni\_deger=\frac{deger-ortalama}{standart\ sapma}
+$$
+
+
+
+**Birleştirme-Toplama (Aggregation):** Birlikte olduklarında daha anlamlı olduklarını, iş bilgisi ya da veri analizi sayesinde bilinen (keşfedilen) verilerin birlikte ele alınmasını sağlar (Dean ve Ghemawat, 2010). 2 kategorik değişkenin yeni bir grup olarak birleştirilip veri setine eklenmesi, bu dönüşüm yöntemine örnektir.
+
+
+
+**Kategorik Değişkenler:** Makine öğrenmesi algoritmalarının birçoğu kategorik değişkenleri, bir dönüşüm yapmadan kullanamamaktadır. Kategorik bir değişkeni; “Sıralayıcı Değişkenlere Kodlama (Encoding to ordinal variables)" yöntemi ile içinde bulunan kategorileri sayılara dönüştürüp, bu sayıların kategorileri temsil etmesi sağlanabilmektedir. Başka bir yöntem olan “Tek Yüklü Kodlama (One hot encoding)" ile veri içerisinde bulunan her kategorinin bir sütunu temsil ettiği bir ikili matrise dönüşüm gerçekleştirilebilmektedir.
+
+
+
+## Algoritma Seçimi
+
+
+
+Makine öğrenmesi projesinde öncelikle algoritma seçiminin hangi kategoriden yapılacağına karar verilmeli, daha sonra seçim yapılan kategori içerisinde bulunan algoritmalardan veri setine ve hipoteze uygun olanı seçilmelidir.

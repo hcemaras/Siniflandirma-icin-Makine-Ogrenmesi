@@ -1,0 +1,407 @@
+# Uygulama {#Bolum4}
+
+İzmir ili Torbalı ilçesinde plastik masa örtüsü üretimi gerçekleştiren SANEM PLASTİK adlı fabrikadan alınan 2018-2019 yılları arasındaki veriler ile sınıflandırma makine öğrenimi algoritmalarını kullanılarak oluşturulan modellere göre fabrikanın verimliliğini arttırmaktır.
+
+
+\ 
+
+
+Fabrikadan alınan veri “csv” formatında olduğu için RStudio üzerinden  aşağıdaki kod ile data frame veri yapısında “veri” adı ile kaydedilmiştir. Daha sonra veri setindeki değişkenlerin yapıları Tablo 4.1'de verilmiştir.
+
+```{r}
+library(readr)
+veri <- read_delim("veri.csv", ",", escape_double = FALSE, 
+    col_types = cols(tecrube = col_factor(levels = c("0", 
+        "1")),gun = col_factor(levels = c("1", 
+        "2", "3", "4", "5", "6")), hafta = col_factor(levels = 
+        c("Hafta 01","Hafta 02", "Hafta 03", "Hafta 04", "Hafta 05", 
+        "Hafta 06", "Hafta 07", "Hafta 08", "Hafta 09", "Hafta 10",
+        "Hafta 11", "Hafta 12", "Hafta 13", "Hafta 14", "Hafta 15", 
+        "Hafta 16", "Hafta 17", "Hafta 18", "Hafta 19","Hafta 20",
+        "Hafta 21", "Hafta 22", "Hafta 23", "Hafta 24", "Hafta 25", 
+        "Hafta 26", "Hafta 27", "Hafta 28", "Hafta 29","Hafta 30", 
+        "Hafta 31", "Hafta 32", "Hafta 33", "Hafta 34", "Hafta 35", 
+        "Hafta 36", "Hafta 37", "Hafta 38", "Hafta 39","Hafta 40", 
+        "Hafta 41", "Hafta 42", "Hafta 43", "Hafta 44", "Hafta 45",
+        "Hafta 46")), tarih = col_date(format = "%Y-%m-%d")), 
+    locale = locale(decimal_mark = "."), 
+    trim_ws = TRUE)
+```
+
+
+
+| Değişkenler            | Tür        | Kategorik                 |
+| :--------------------- | :--------  | :------------------------ |
+| OEE *(Hedef Değişken)* | Sürekli    |                           |
+||  ||  ||  ||
+| Hafta                  | Kategorik  | 1’den 46’ya kadar         |
+||  ||  ||  ||
+| Üretim                 | Sürekli    |                           |
+||  ||  ||  ||
+| Tarih                  | Tarih      | Ay- Gün- Yıl              |
+||  ||  ||  ||
+| Saat                   | Sürekli    | 1 – 24                    |
+||  ||  ||  ||
+| Kayıp metre            | Sürekli    |                           |
+||  ||  ||  ||
+| Gün                    | Kategorik  | 1: Pazartesi              |
+|                        |            | 2: Salı                   |
+|                        |            | 3: Çarşamba               |
+|                        |            | 4: Perşembe               |
+|                        |            | 5: Cuma                   |
+|                        |            | 6: Cumartesi              |
+|                        |            | 7: Pazar                  |
+||  ||  ||  ||
+| On Yıl Tecrübe         | Kategorik  | 0: On yıl tecrübe altı    |
+| (Simülasyon)           |            | 1: On yıl tecrübe ve üstü |
+
+Table: (\#tab:inher) Veri Seti Değişkenleri
+
+Tablo 4.1'de görüldüğü üzere OEE değişkeni bağımlı değişken iken diğer değişkenler bağımsız olarak ele alınmıştır. OEE, üretim, saat, kayıp metre, değişkenleri sürekli, hafta, gün ve tecrübe değişkenleri kategorik değişkenlerdir. Tüm bu değişkenlerin ilk 6 satırının görüntüsü ve özet istatistikleri aşağıda verilmiştir.
+
+
+```{r}
+head(veri)
+```
+
+```{r}
+summary(veri)
+```
+
+
+Modellerin amacı bağımsız değişkenlerin, OEE puanına nasıl etkileyeceğini araştırmaktır. Model için sürekli değişkenlerimiz, ortalamaya göre bölünüp 0-1 olarak kategorik değişken haline getirilmiştir.
+
+
+```{r}
+veri$uretim[veri$uretim<mean(veri$uretim)]=0
+veri$uretim[!(veri$uretim<mean(veri$uretim))]=1
+veri$uretim=as.factor(veri$uretim)
+```
+
+```{r}
+veri$kayip_metre[veri$kayip_metre<mean(veri$kayip_metre)]=0
+veri$kayip_metre[!(veri$kayip_metre<mean(veri$kayip_metre))]=1
+veri$kayip_metre=as.factor(veri$kayip_metre)
+```
+
+```{r}
+veri$saat[veri$saat<mean(veri$saat)]=0
+veri$saat[!(veri$saat<mean(veri$saat))]=1
+veri$saat=as.factor(veri$saat)
+```
+
+
+Daha önce belirtildiği üzere hedef değişkenimiz OEE değişkenidir. OEE, “Overall Equipment Effectiveness” kısaltmasıdır. Türkçe çevirisi Toplam Ekipman Etkinliği’dir. OEE bütün ekipmanların ne ölçüde kullanıldığına işaret eden bir TPM(Total Productive Maintenance) hesabıdır. Arızalar, ekipman ayarları, duruşlar, çalışma hızındaki azalmalar, ıskartalar ve yeniden işlem gibi kayıplar üzerine düşer. Amacı; şirketlerin eldeki makine ve ekipmanların performanslarının arttırılmasına odaklanmaktır. Gerekli görüldüğü ölçüde başka önemli ölçütlerin eklenebilmesi esnekliğine sahip olmasıyla beraber genel olarak 3 önemli değişkeni bir arada hesap eder:
+
+\ 
+
+
+OEE [%] = Kullanılabilirlik Oranı x Performans Oranı x Kalite Oranı
+
+
+* **Kullanılabilirlik Oranı [%]:** Ekipmana ait sebeplerden (arıza, ayarlamadan kaynaklanan duruş süresi vs.) kaynaklanan kullanılabilirlik miktarını gösterir.
+
+
+* **Performans Oranı [%]:** Çalışma hızlarında tasarımla belirlenmiş hızlara göre düşüşleri ve birkaç saniyelik duruşları hesap eder.
+
+
+* **Kalite Oranı [%]:** Toplam işlenen parçaların ıskarta ve yeniden işlem kayıplarının yüzdesidir. [<https://lean.org.tr/oee-nedir/>, Can YÜKSELEN]
+
+Uygulanabilen en iyi OEE değeri %85 olarak kabul edilmektedir ve bu seviyedeki şirketler **“World Class”** üretim yapan şirketler olarak anılırlar. Dünya standartlarında olan şirketler OEE performanslarını yükselterek, kapasite ihtiyaçlarını karşılamaya çalışırlar. Böylece kendilerini ek yatırım, ek alan kullanımı, ek işçilik, fazla stok, fazla enerji kullanımı, kalitesizlik ve finansman maliyetlerinden korurlar. Bu nedenle hedef değişken 85 puan ve üstü ile 85 puan altı olarak ayırdık ve 1-0 değerleri ile kategorik değişken olarak değiştirildi.
+
+```{r}
+veri$OEE[veri$OEE<85]=0
+veri$OEE[!veri$OEE<85]=1
+veri$OEE=as.factor(veri$OEE)
+```
+
+Yeni durumda özet istatistikler şu şekildedir:
+
+```{r}
+summary(veri[,-1])
+```
+
+
+Daha sonra veri %80 eğitim ve %20 test olarak iki parçaya aşağıdaki gibi ayrılmıştır.
+
+
+```{r}
+set.seed(1)
+r=as.logical(rbinom(length(veri$OEE),1,prob = 0.8))
+train=veri[r,-c(1,2)]
+test=veri[!r,-c(1,2)]
+```
+
+#### Lojistik Regresyon Modeli (Full Model)
+
+Veri setindeki tüm değişkenlerle train verisi üzerinde lojistik regresyon modeli kurulmuştur. Lojistik regresyon için yapılan full modelin R çıktısı aşağıda verilmektedir.
+
+```{r}
+full.model = glm(OEE ~. - tecrube ,family=binomial, data=train)
+summary(full.model)
+```
+
+Çıktıda görüldüğü üzere üretim, saat anlamlı çıkmıştır. Kayıp metre değişkeni 0.05 sınırında olduğundan ‘.’ ile işaretlenmiştir.
+Yapılan Korelasyon analizine göre kayıp metre ve saat değişkeni ile ilişkili bulunmuştur (0.48). Bu yüzden kayıp metrenin modele alınmamasına karar verilmiştir.
+
+#### Lojistik Regresyon Modeli (En İyi Model)
+
+En iyi modeli oluşturmak için stepwise yöntemi kullanılmıştır. Bu yöntemde modele hem değişken ekleme hem çıkarma işlemlerini uygulaması için direction = "both" olarak tanımlanmıştır. En iyi modelin modelin R çıktısı aşağıda verilmektedir.
+
+```{r,results="hide", echo=FALSE, message=FALSE}
+library(MASS)
+library(tidyverse)
+```
+
+```{r}
+best.model <- stepAIC(glm(OEE ~. - tecrube -kayip_metre ,family=binomial, data=train), direction = "both",trace = FALSE)
+summary(best.model)
+```
+Çıktıda görüldüğü üzere en iyi modelde üretim, saat değişkenleri %95 anlamlılık düzeyinde istatistiksel olarak anlamlı çıkmıştır. Daha sonra OR, CI ve Wald testine bakılmıştır.
+
+```{r,results="hide", echo=FALSE, message=FALSE}
+library(aod)
+```
+
+```{r,warning=FALSE}
+wald.test(b=coef(best.model),Sigma=vcov(best.model),Terms=1:2)
+```
+
+Kategorik değişkenlerle kurulan lojistik regresyon en iyi modelindeki Wald değerlerine bakıldığında, tüm p değerleri 0.05’den küçük olduğu için katsayılar %95 güven seviyesinde istatistiksel olarak anlamlı bulunmuştur.
+
+```{r,warning=FALSE}
+exp(confint(best.model))
+```
+
+Ayrıca OR ve güven aralıklarına bakıldığında, OR’a ait güven aralıklarının 1’i içermediği görülmektedir. Bu yüzden OR’ler anlamlıdır ve yorumlanabilir. 
+
+```{r,warning=FALSE}
+exp(coef(best.model))
+```
+
+Üretimi yüksek olanların, üretimi düşük olanlara göre Toplam Ekipman Etkinliğinin (OEE) yüzdesinin yüksek olma şansı yaklaşık olarak 21 katıdır. 
+Saat değişkeninde ise saati az olanların, yüksek olanlara göre OEE yüzdesinin yüksek olma şansı ise  1/0.29 oranından yaklaşık olarak 3 katı olduğu elde edilmektedir.
+
+Train verisinde oluşturduğumuz model, test verisinde sınıflandırma performansını ölçme yöntemleri ile şu şekilde test edilmiştir.
+
+
+```{r}
+#Tahmin Değerleri
+pred = predict(best.model, test, type = "response")
+print(round(pred,2))
+```
+
+Tahmin değerleri logistic regresyon modelinde sigmoid fonksiyon gereği 0 ile 1 arasında değerler almaktadır. Bu değerleri kategorik hale getirdiğimiz OEE değişkenindeki 0 ile 1 değerleri gibi tam hale çevirmek için şu kod kullanılmıştır.
+
+```{r}
+pred = ifelse(pred<0.5,0,1)
+print(pred)
+```
+
+
+
+
+
+
+
+```{r,results="hide", echo=FALSE, message=FALSE,include=FALSE}
+library(caret)
+predictions <- predict(best.model,newdata=test,type='response')[1:nrow(test)]
+conmat = confusionMatrix(factor(round(predictions)),factor(test$OEE))
+
+ # Karmaşıklık Matrisi
+t1=round(conmat$overall [1],3) #Accuracy
+t2=round(conmat$byClass [1],3) #Sensitivity
+t3=round(conmat$byClass [2],3) #Specificity
+t4=round(conmat$byClass [5],3) #Precision
+t5=round(conmat$byClass [7],3) #F1
+```
+
+```{r,results="hide", echo=FALSE, message=FALSE,include=FALSE}
+predictions <- predict(best.model,newdata=test,type='response')[1:nrow(test)]
+conmat = confusionMatrix(factor(round(predictions)),factor(test$OEE))
+```
+
+```{r, echo=FALSE,fig.align="center"}
+ 
+cat("En İyi Model için OEE Karmaşıklık Matrisi","\n")
+x=conmat$table
+rownames(x)=c("  <85"," >=85")
+colnames(x)=c(" <85"," >=85")
+x
+```
+
+| Doğruluk | Kesinlik | Hassaslık | Belirlilik | F1 Skoru |
+| -------- | -------- | --------- | ---------- | -------- |
+| `r t1`   | `r t2`   | `r t3`    | `r t4`     | `r t5`   |
+
+
+
+#### CART Algoritması (En İyi Model)
+
+```{r,results="hide", echo=FALSE, message=FALSE}
+library(rpart)
+library(rpart.plot)
+library(rattle)
+```
+
+```{r,fig.cap="CART (En İyi Model)",out.width = '76%',fig.align = "center"}
+cart=rpart(formula = OEE ~ uretim+saat, data = train, method = "class")
+fancyRpartPlot(cart,sub = "")
+
+```
+
+CART ağacımız Gini katsayısına göre hesaplanıp, ilk olarak saat kategorik değişkenine ayrılmıştır. Bu durumda OEE’nin yorumlanmasında en önemli değişken olarak saat değişkeni olduğu söylenebilir. Buna göre saati ortalama veya ortalamadan yüksek olanlar, sol tarafa ayrılmıştır. 163 birimlik “train” verisi üzerinde hesaplandığı için bu düğüme %36 oranla 59 birim düşmüştür. 59 birimin %69’u yani 41 tanesi OEE’si 0 olan sınıfta yer almıştır. Kalan 18 tanesi ise OEE’si 1 olan sınıfta yer almıştır. Saati ortalamadan az olanlar ise, sağ tarafa ayrılmıştır. 163 birimin  %64 oranla 104 birim bu düğüme düşmüştür. 104 birimin %18’i yani 19 tanesi OEE’si 0 olan sınıfta yer almıştır. Kalan 85 tanesi ise OEE’si 1 olan sınıfta yer almıştır.
+
+```{r,results="hide", echo=FALSE, message=FALSE,include=FALSE}
+predictions <- predict(cart,newdata=test, type="class")[1:nrow(test)]
+conmat = confusionMatrix(factor(predictions),factor(test$OEE))
+ # Karmaşıklık Matrisi
+t1=round(conmat$overall [1],3) #Accuracy
+t2=round(conmat$byClass [1],3) #Sensitivity
+t3=round(conmat$byClass [2],3) #Specificity
+t4=round(conmat$byClass [5],3) #Precision
+t5=round(conmat$byClass [7],3) #F1
+```
+
+```{r, echo=FALSE,fig.align="center"}
+ 
+cat("En İyi Model için OEE Karmaşıklık Matrisi","\n")
+x=conmat$table
+rownames(x)=c("  <85"," >=85")
+colnames(x)=c(" <85"," >=85")
+x
+```
+
+| Doğruluk | Kesinlik | Hassaslık | Belirlilik | F1 Skoru |
+| -------- | -------- | --------- | ---------- | -------- |
+| `r t1`   | `r t2`   | `r t3`    | `r t4`     | `r t5`   |
+
+
+
+#### Yeni Değişken
+
+Fabrika verileri ile kurulan lojistik regresyon modelinde saat ve üretim değişkenleri modelde  anlamlı çıkmıştır. CART modelinde ise en önemli değişkenin saat olduğu tespit edilmiştir. Daha sonra CART modelinde ağaç derinliği kontrol edildiğinde 2. düğümün üretim değişkenine ayrıldığı gözlemlenmiştir. Fakat üretim değişkeni tek başına yeterli ayrıştırmayı yapamadığından ağaçta kırpılmış olduğu fark edilmiştir. 
+
+Modellerde değişken sayısını artırıp modelin nasıl değiştiğini görmek için  simülasyon çalışması ile makineyi çalıştıran kişinin tecrübesi (10 yıldan az&10 yıl ve daha fazla olarak belirlenmiş kategorik değişken) verilerimize eklenmiştir.
+Bu yeni değişkene göre yeni modeller kurulmuştur.
+
+#### Lojistik Regresyon Modeli (Tecrübe, Üretim, Saat (TÜS))
+
+```{r}
+tus.model = glm(OEE ~tecrube +uretim+ saat ,family=binomial, data=train)
+summary(tus.model)
+```
+
+Burada en uygun modelde tecrübe, üretim, saat değişkenleri %95 anlamlılık düzeyinde istatistiksel olarak anlamlı çıkmıştır. Daha sonra OR, CI ve Wald testine bakılmıştır.
+
+```{r,warning=FALSE}
+wald.test(b=coef(tus.model),Sigma=vcov(tus.model),Terms=1:2)
+```
+
+Kategorik değişkenlerle kurulan lojistik regresyon en iyi modelindeki Wald değerlerine bakıldığında, tüm p değerleri 0.05’den küçük olduğu için katsayılar %95 güven seviyesinde istatistiksel olarak anlamlı bulunmuştur.
+
+```{r,warning=FALSE}
+exp(confint(tus.model))
+```
+
+Ayrıca OR ve güven aralıklarına bakıldığında, OR’a ait güven aralıklarının 1’i içermediği görülmektedir. Bu yüzden OR’ler anlamlıdır ve yorumlanabilir. 
+
+```{r,warning=FALSE}
+exp(coef(tus.model))
+```
+
+10 Yıllık Tecrübesi olanların, olmayanlara göre OEE yüzdesinin yüksek olma şansı yaklaşık olarak 15 kattır. Üretimi yüksek olanların, üretimi düşük olanlara göre OEE yüzdesinin yüksek olma şansı yaklaşık olarak 33 kattır. Saati az olanların saati yüksek olanlara göre OEE yüzdesinin yüksek olma şansı ise 1/0.17 yaklaşık olarak 6 kattır.
+
+```{r,results="hide", echo=FALSE, message=FALSE,include=FALSE}
+library(caret)
+predictions <- predict(tus.model,newdata=test,type='response')[1:nrow(test)]
+conmat = confusionMatrix(factor(round(predictions)),factor(test$OEE))
+
+ # Karmaşıklık Matrisi
+t1=round(conmat$overall [1],3) #Accuracy
+t2=round(conmat$byClass [1],3) #Sensitivity
+t3=round(conmat$byClass [2],3) #Specificity
+t4=round(conmat$byClass [5],3) #Precision
+t5=round(conmat$byClass [7],3) #F1
+```
+
+```{r,results="hide", echo=FALSE, message=FALSE,include=FALSE}
+predictions <- predict(best.model,newdata=test,type='response')[1:nrow(test)]
+conmat = confusionMatrix(factor(round(predictions)),factor(test$OEE))
+```
+
+```{r, echo=FALSE,fig.align="center"}
+ 
+cat("TÜS Model için OEE Karmaşıklık Matrisi","\n")
+x=conmat$table
+rownames(x)=c("  <85"," >=85")
+colnames(x)=c(" <85"," >=85")
+x
+```
+
+| Doğruluk | Kesinlik | Hassaslık | Belirlilik | F1 Skoru |
+| -------- | -------- | --------- | ---------- | -------- |
+| `r t1`   | `r t2`   | `r t3`    | `r t4`     | `r t5`   |
+
+
+
+#### CART Algoritması (Tecrübe, Üretim, Saat, (TÜS))
+
+
+```{r,fig.cap="CART (TÜS)",out.width = '80%',fig.align = "center"}
+cart=rpart(formula = OEE ~ tecrube +uretim+ saat, data = train, method = "class")
+fancyRpartPlot(cart,sub = "")
+```
+
+
+Buna göre saati ortalama veya ortalamadan yüksek olanlar, sol tarafa ayrılıp, 2. Düğümde yer almıştır. 163 birimlik “train” verisi üzerinde hesaplandığı için bu 2. düğüme %36 oranla 59 birim düşmüştür. 59 birimin %69’u yani 41 tanesi OEE’si 0 olan sınıfta yer almıştır. Kalan 18 tanesi ise OEE’si 1 olan sınıfta yer almıştır.
+
+
+\ 2. düğüm daha sonra üretim değişkenine göre ikiye ayrılmıştır. Üretimi ortalama ya da ortalamadan yüksek olanlar sağ tarafa ayrılıp 5. düğümü oluşturmuşlardır. 5. düğüme toplam verinin %23’üne denk gelen 38 birim düşmüştür. Bu 38 birimin %53’ü yani 20 tanesi OEE’si 0 olan sınıfta yer almıştır. Kalan 18 tanesi ise OEE’si 1 olan sınıfta yer almıştır.
+
+
+\ 2. düğümde üretimi ortalamadan az olanlar sol tarafa ayrılıp 4. düğümü oluşturmuşlardır. 4. düğüme toplam verinin %13’üne denk gelen 21 birim düşmüştür. Bu 21 birimin %100’ü yani tamamı OEE’si 0 olan sınıfta yer almıştır. OEE’si 1 olan sınıfta yer alan birim yoktur.
+
+
+\ 5. düğüm daha sonra tecrübe değişkenine göre ikiye ayrılmıştır. On yıllık tecrübesi olanlar sol tarafa ayrılıp 10. düğümü, olmayanlar sağ tarafa ayrılıp 11. düğümü oluşturmuşlardır. 10. düğüme toplam verinin %10’una denk gelen 16 birim düşmüştür. Bu 16 birimin %76’sı yani 12 tanesi OEE’si 0 olan sınıfta yer almıştır. Kalan 4 tanesi ise OEE’si 1 olan sınıfta yer almıştır.
+11. düğüme ise toplam verinin %13’üne denk gelen  21 birim düşmüştür. Bu 21 birimin %33’ü yani 7 tanesi OEE’si 0 olan sınıfta yer almıştır. Kalan 14 tanesi ise OEE’si 1 olan sınıfta yer almıştır.
+
+
+Saati ortalamadan az olanlar ise, sağ tarafa ayrılmıştır. 163 birimin  %64 oranla 104 birim bu düğüme yani 3. düğüme düşmüştür. 104 birimin %18’i yani 19 tanesi OEE’si 0 olan sınıfta yer almıştır. Kalan 85 tanesi ise OEE’si 1 olan sınıfta yer almıştır. 
+
+
+\ 3. Düğüm daha sonra tecrübe değişkenine göre ayrılmıştır. On yıllık tecrübesi olmayanlar sol tarafa ayrılıp 6. düğümü oluşturmuştur. 6. düğüme toplam verinin %23’üne denk gelen 38 birim düşmüştür. Bu 38 birimin %43’ü yani 16 tanesi OEE’si 0 olan sınıfta yer almıştır. Kalan 22 tanesi ise OEE’si 1 olan sınıfta yer almıştır.
+
+
+\ 3. düğümdeki on yıllık tecrübesi olanlar sağ tarafa ayrılıp 7. düğümü oluşturmuşlardır. 7. düğüme toplam verinin %41’ine denk gelen 67 birim düşmüştür. Bu 67 birimin %4’ü yani 3 tanesi OEE’si 0 olan sınıfta yer almıştır. Kalan 64 tanesi ise OEE’si 1 olan sınıfta yer almıştır.
+
+
+\ 6. düğüm daha sonra üretim değişkenine göre ikiye ayrılmıştır. Üretimi az olanlar sol tarafa ayrılıp 12. düğümü, çok olanlar sağ tarafa ayrılıp 13. düğümü oluşturmuşlardır. 12. düğüme toplam verinin %10’una denk gelen 16 birim düşmüştür. Bu 16 birimin %81’i yani 13 tanesi OEE’si 0 olan sınıfta yer almıştır. Kalan 3 tanesi ise OEE’si 1 olan sınıfta yer almıştır. 13. düğüme ise toplam verinin %13’üne denk gelen  21 birim düşmüştür. Bu 21 birimin %14’ü yani 3 tanesi OEE’si 0 olan sınıfta yer almıştır. Kalan 18 tanesi ise OEE’si 1 olan sınıfta yer almıştır.
+
+```{r,results="hide", echo=FALSE, message=FALSE,include=FALSE}
+predictions <- predict(cart,newdata=test, type="class")[1:nrow(test)]
+conmat = confusionMatrix(factor(predictions),factor(test$OEE))
+ # Karmaşıklık Matrisi
+t1=round(conmat$overall [1],3) #Accuracy
+t2=round(conmat$byClass [1],3) #Sensitivity
+t3=round(conmat$byClass [2],3) #Specificity
+t4=round(conmat$byClass [5],3) #Precision
+t5=round(conmat$byClass [7],3) #F1
+```
+
+```{r, echo=FALSE,fig.align="center"}
+ 
+cat("TÜS Model için OEE Karmaşıklık Matrisi","\n")
+x=conmat$table
+rownames(x)=c("  <85"," >=85")
+colnames(x)=c(" <85"," >=85")
+x
+```
+
+| Doğruluk | Kesinlik | Hassaslık | Belirlilik | F1 Skoru |
+| -------- | -------- | --------- | ---------- | -------- |
+| `r t1`   | `r t2`   | `r t3`    | `r t4`     | `r t5`   |
+
+
+

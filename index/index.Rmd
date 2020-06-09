@@ -1,0 +1,78 @@
+---
+authors: 
+  - 'Hüseyin Cem ARAS'
+  - 'İbrahim Berkay ÖZ'
+date:  "`r format(Sys.time(), '%B %Y')`"
+institution: 'FEN FAKÜLTESİ'
+division: 'İSTATİSTİK BÖLÜMÜ'
+advisor: 'Dr. Özgül VUPA ÇİLENGİROĞLU' #Danışman Ünvan Adı Soyadı
+#altadvisor: 'Your Other Advisor' # Delete line if you only have one advisor
+department: 'İstatistik Bölümü'
+degree: 'Bitirme Projesi Raporu'  
+title: 'SINIFLANDIRMA İÇİN MAKİNE ÖĞRENMESİ'
+knit: "bookdown::render_book"
+site: bookdown::bookdown_site
+
+output: 
+  thesisdown::thesis_pdf: default #"template.tex" şablonuna yönlendiren fonksiyon
+#  thesisdown::thesis_gitbook: default
+#  thesisdown::thesis_word: default
+#  thesisdown::thesis_epub: default
+# If you are creating a PDF you'll need to write your preliminary content here or
+# use code similar to line 20 for the files.  If you are producing in a different
+# format than PDF, you can delete or ignore lines 20-31 in this YAML header.
+
+      
+abstractTR: |
+  `r if(knitr:::is_latex_output()) paste(readLines("00-ozet.Rmd"), collapse = '\n  ')`
+
+# If you'd rather include the preliminary content in files instead of inline
+# like below, use a command like that for the abstract above.  Note that a tab is 
+# needed on the line after the |.
+
+preface: |  # rapor değerlendirme
+  "`r rmarkdown::metadata$title`" başlıklı bitirme projesi raporu tarafımdan okunmuş, kapsamı ve niteliği açısından bir Bitirme Projesi raporu olarak kabul edilmiştir.\
+  \
+  \
+  `r rmarkdown::metadata$advisor`
+  
+acknowledgements: |
+  Tüm çalışma süresince yönlendiriciliği, katkıları ve yardımları ile yanımızda olan danışmanımız `r rmarkdown::metadata$advisor`'na, böyle bir çalışmayı yapmamız için bize fırsat tanıyan Dokuz Eylül Üniversitesi Fen Fakültesi İstatistik Bölümüne, sanayi-üniversite işbirliği kapsamında bize veri ve bilgi desteği sağlayan ve sanayi kolumuz olan SANEM Plastik AŞ. Yönetim Kuruluna ve Tasarım Merkezi Müdürü Alim Fatih KILINÇ'a teşekkür ederiz.\
+  \
+  \
+  `r rmarkdown::metadata$authors[[1]]`
+  \
+  `r rmarkdown::metadata$authors[[2]]`
+  \
+ 
+# ```{r, echo = FALSE,results="asis"}
+# n<-length(rmarkdown::metadata$authors)
+# for (i in 1:n) {
+#       cat(rmarkdown::metadata$authors[[i]],sep="\n")
+#   }
+# ```
+#
+
+#dedication: |
+#  You can have a dedication here if you wish. 
+bibliography: bib/thesis.bib
+# Download your specific bibliography database file and refer to it in the line above.
+csl: csl/apa.csl
+# Download your specific csl file and refer to it in the line above.
+lot: true
+lof: true
+#space_between_paragraphs: true
+# Delete the # at the beginning of the previous line if you'd like
+# to have a blank new line between each paragraph
+#header-includes:
+#- \usepackage{tikz}
+---
+
+```{r include_packages, include = FALSE}
+# This chunk ensures that the thesisdown package is
+# installed and loaded. This thesisdown package includes
+# the template files for the thesis.
+ if(!require(devtools)) install.packages("devtools", repos = "http://cran.rstudio.com")
+ if(!require(thesisdown))devtools::install_github("ismayc/thesisdown")
+ library(thesisdown)
+```

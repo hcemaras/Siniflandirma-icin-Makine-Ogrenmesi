@@ -1,0 +1,331 @@
+# Algoritmalar
+
+Makine öğrenmesi alanında yer alan yöntemler ve algoritmalar, öğrenme yöntemine göre üç kategoride incelenirler (Alpaydin, 2009).
+
+* Denetimli Öğrenme (Supervised Learning)
+* Denetimsiz Öğrenme (Unsupervised Learning)
+* Takviyeli/Pekiştirmeli Öğrenme (Reinforcement Learning)
+
+Bu çalışmada denetimli öğrenme üzerinden gidilmiştir.
+
+```{r,fig.cap="Makine Öğrenmesi",echo=FALSE,cache=TRUE,out.width = '100%',fig.align = "center"}
+include_graphics(path = "figure/makine-ogrenmesi.png")
+```
+
+## Denetimli Öğrenme
+
+Eğitim verisinde bulunan girdileri ve bunlara ait etiketlenmiş çıktı değerlerini kullanarak model üreten (fonksiyon) ve test kümesi üzerinden bu modeli sınayan öğrenme yöntemidir (Onan, 2015). Örneğin; bir görüntü tanıma çalışması yapıldığını varsayılsın. Hangi görüntünün hangi cisme ait olduğu etiketlenmiş bir veri seti olsun. Bu veri setini ve uygun algoritmayı kullanarak gerçekleştirilen öğrenme türüne **Denetimli Öğrenme** denilmektedir. Denetimli öğrenme yöntemlerini **Regresyon** ve **Sınıflandırma** olarak 2 grupta incelemek mümkündür.
+
+### Regresyon
+
+İstatistik biliminin temel ilgi alanlarından olan regresyon, bağımlı bir değişkenin davranışının, bağımsız bir veya daha fazla değişken üzerinden modellenmesidir (Özift, 2014 s, 215). Bağımsız değişkenlere, bağımlı değişkeni etkiledikleri derecede bir katsayı atanır. Hipotez, nicel bağımlı bir değişken tahmin etmeye yöneliktir. Regresyon yöntemleri doğrusal ve doğrusal olmayan regresyon modelleri üzerinden incelenmektedir.
+
+#### Doğrusal Regresyon
+
+Regresyon analizinde temel amaç bağımlı değişkeni tahmin edecek en iyi modelin tahmin edilmesidir. Bir diğer ifadeyle bağımlı değişkendeki varyasyonu en iyi açıklayan denklemin oluşturulmasıdır. Regresyon modelindeki bağımsız değişken birinci dereceden ise bu model doğrusal model olarak ifade edilir.
+
+Basit doğrusal regresyon modelinde bir bağımlı ($\mathrm{Y}$) ve bir bağımsız değişken (*$\mathrm{X}$*) vardır. Çoklu doğrusal regresyon modelinde ise bir bağımlı ($\mathrm{Y}$) ve birden fazla bağımsız değişken ($\mathrm{X_i}$) vardır.
+
+(X~i~ Y~i~) gözlemlerine ait basit doğrusal regresyon modeli aşağıdaki gibidir:
+
+
+$$
+{Y_i}=\alpha+\beta {X_i}+\varepsilon_{i} \quad {i=1,2,\ldots,n}
+$$
+
+Burada;
+${X}:$ Bağimsız değişken
+
+${Y}:$ Bağımlı değişken
+
+$\alpha:$ Regresyon doğrusunun ${Y}$ eksenini kestiği değer
+
+$\beta:$ Regresyon doğrusunun eğimidir.
+
+$\varepsilon:$ hata değerleridir.
+
+  
+
+${\varepsilon}$'nun ortalamasının sıfır, varyansının olduğu ve normal dağılış gösterdiği varsayılır. Bu bir hata değerinin başka bir hata değerinden etkilenmediği anlamına gelir. Yani hata terimleri arasında otokorelasyon yoktur. $\varepsilon$ değerleri kesin olarak bilinmeyen, pozitif veya negatif değerler alabilen rassal bir değişkendir (Anderson et al. 1981; Gujarati 2005 s,132). Hata terimi Y bağımlı değişkenini etkileyen diğer değişkenlerin modele dahil edilmemesi, modelin yanlış seçilmesi, bilgi kaynağının homojen olmaması ve ölçme yanlışlıklarından dolayı ortaya çıkmaktadır (Kılıçbay 1980; Johnson and Wichern 1998; Gujarati 2005 s,141).
+
+#### Lojistik Regresyon
+
+Günümüzde biyoloji, tıp, tarım ve ekonomi, gibi alanlarda kolay kullanımı ve yorumlanması nedeniyle lojistik regresyon yaygın olarak kullanılan ve tercih edilen bir yöntem haline gelmiştir. 
+
+Doğrusal regresyon modelinden farkı ise, lojistik regresyon analizinde bağımlı değişkenin iki ya da çok sınıflı olmasıdır. Lojistik regresyon ve doğrusal regresyon analizi arasındaki bu farklılık hem parametrik model seçimine hem de varsayımlara yansımaktadır [Hosmer, D. W., Lemeshow, S., 1989, 5-50 s,102]. Lojistik regresyon, normallik varsayımının bozulması nedeniyle doğrusal regresyon analizine alternatif olmaktadır. Doğrusal regresyon analizinde bağımlı değişkenin değeri, lojistik regresyon analizinde ise bağımlı değişkenin alabileceği değerlerden birinin gerçekleşme olasılığı tahmin edilmektedir. Temel olarak lojistik regresyonda bağımsız değişkenler ile iki ya da çok sınıflı kategorik bağımlı değişken arasındaki ilişkinin tanımlanması için matematiksel modelleme yapmak amaçlanmaktadır [Kleinbaum,G., D., 1994 s,76].
+
+Lojistik regresyonun modelleme aşamasında kullanılacak olan lojistik modeli elde etmek için yapılan adımlara aşağıda değinilmiştir.
+$$
+{y_i}=\sum_{k=0}^{p} \beta_{k} {X_{ik}}+\varepsilon{_i}
+$$
+
+şeklinde ifade edilen modelde bağimsiz değiskenler üzerinde bir kısit yoktur. Ayni zamanda ${y_i}$ bağimli değisken değeri de $-\infty$ ile $+\infty$ arasinda tüm değerleri alabilmektedir. Bağımlı değiskenin 0 ve 1 gibi değerler aldığı durumda bu kural bozulmakta ve $P\left({y_i}=1\right)$ $i$. gözlemin 1 değerini alma olasılığı olmak üzere, beklenen değer:
+
+$$
+E\left({y_i}\right)=1 \times P\left({y_i}=1\right)+0 \times P\left({y_i}=0\right)=P\left({y_i}=1\right) \text { olmaktadır. }
+$$
+
+Bu sonuç regresyon denklemi olarak yazılacak olursa:
+
+$$
+E\left({y_i}\right)=P\left({y_i}=1\right)=\sum_{k=0}^{p} \beta_{k^{x} i k}\quad, {i=1,} \ldots {, n}
+$$
+
+ifadesi elde edilmektedir. Sol tarafı. $0-1$ arasinda olasılık değerleri alan bu denkleme "Doğrusal olasılık modeli" adı verilmektedir [Tatlıdil, H., 1996 s, 120]
+Doğrusal olasılık modelinde bağımlı değisken değeri olarak ifade edilen olasılık değerinin çesitli dönüşümlerle - $-\infty,+\infty$ arasinda tanimlı hale getirilmesi amaciyla yapılacak dönüşümlerden birisi lojit dönüşüm olup. lojit dönüşümde, ilk olarak;
+
+$$
+E\left({y_i}\right)=P\left({y_i}=1\right)=\sum_{k=0}^{p} \beta_{k^{x} i k}\quad, {i=1, \ldots, n}
+$$
+modelinde olasilik değerleri üzerinde $\frac{P}{1-P} \quad$ dönüsümü yapılarak bağımlı değiskenin sinirları 0,1 yapilmakta, daha sonra ise bu oran değerinin logaritması alınarak bağımlı değişkenin sinirları -$\infty$, + $\infty$ yapılmaktadir. Bu dönüşümlerden sonra elde edilen yeni fonksiyon: 
+
+$$
+g(x)=\ln \left[\frac{\pi(x)}{1-\pi(x)}\right]=\beta_{0}+\beta_{1}X
+$$
+
+
+olarak yazılabilir. Bu modele de "Lojistik model" ya da kısaca "Lojit" denmektedir. Transformasyon değiskeni $g(x),$ modeldeki parametreler ile doğrusaldir, süreklidir ve - $\infty$ ile $+\infty$ aralığında değisen değerler alir. $\pi(x)$ arttikça $g(x)$ 'te artar ve eğer $\pi(x)<0,5$ ise $g(x)$ negatif, $\pi(x)>0,5$ ise $g(x)$ pozitif değerler alır (Hosmer ve Lemeshov, 1989: 5,307).
+
+$$
+{P_i}=\frac{\exp \left(\sum_{k=0}^{p} \beta_{k^{x} i k}\right)}{1+\exp \left(\sum_{k=0}^{p} \beta_{k^{x} i k}\right)}
+$$
+
+biçiminde tanimlanmaktadır [Collet, D., 2003].
+
+Lojistik analizinde yapılması gereken önemli noktalardan biri kurulan model katsayısinin yorumlanmasidir. Bağımsız bir ${k_x}$ değişkeninin katsayısı $\beta_{x}, {k_x}$ 'da meydana gelen bir birim değişikliğin y bağımlı değiskeni üzerinde yarattığı değisimin. miktarını ve yönünü vermektedir. Bunun isin öncelikle bağimlı ve bağimsiz değiskenler arasindaki fonksiyonel iliskinin bulunmasi gereklidir. Bir modeldeki bağimsiz değiskenler ile bağımlı değişken arasındaki lineer ilişkiyi veren fonksiyona "link fonksiyonu" adı verilmektedir. Bağımlı değiskenin tanimı gereği parametrelerinde doğrusal olan doğrusal regresyon modelinde link fonksiyonu birim fonksiyon (matris) iken; lojistik regresyonda söz konusu fonksiyon logit dönüçümdür. Bu dönüşüm de,
+
+
+$$
+{g(x)}=\ln \left\{\frac{P(x)}{[1-P(x)]}\right\}=\beta_{0}+\beta_{1} {x}
+$$
+
+
+Bu denkleme göre lojistik regresyon modelinde $\beta_{1}$ katsayısı, ${x}$ bağimsiz değişkeninin bir birim değişiminin lojitte sağlayacağı değişim olup $\beta_{1}=$ ${g(x+1)-g(x)}$ olarak ifade edimektedir. Yani lojistik regresyon modelinde katsayının yorumu, iki lojit arasındaki farka anlam kazandırılması esasına dayanmaktadır.Buda odds ratio ile ifade edilir.
+
+##### Odds Oranı
+
+Odds, başarı ya da görülme olasılığının “p”, başarısızlık ya da görülmeme olasılığına “1-p” oranıdır. Odds ratio iki odds’un birbirine oranıdır. İki değişken arasındaki ilişkinin özet bir ölçüsüdür.
+
+
+$$
+\frac{p /(1-p)}{q /(1-q)}=\frac{p(1-q)}{q(1-p)}
+$$
+
+
+#### Regresyon Performansını Ölçme Yöntemleri
+
+Kök Ortalama Kare Hatası (Root Mean Square Error - RMSE), modelin çıktısının rakam olduğu durumlarda, modelin tahmin kabiliyetini ölçmek için kullanılan yaygın bir yöntemdir (Chai ve Draxler, 2014). Ortalama Kare Hatası (Mean Square Error - MSE), artıkların karelerinin toplamlarının örnek sayısına bölünmesi ile elde edilir. Burada artıklar, gözlem değerleri ile tahmin değerlerinin farkından oluşur. MSE ölçütüne ait formül şu şekildedir: (${e_t}$); değişkeni artıkları temsil etmektedir. RMSE ise MSE değerinin karekökünün alınması ile elde edilir) (Yücalar vd., 2016).
+
+$$
+{MSE}=\frac{1}{n} \sum_{t=1}^{n} {e_t}^{2}
+$$
+
+Yaygın kullanılan diğer bir ölçüt ise $R^2$’dir. $R^2$, bağımlı değişkenin/değişkenlerin, bağımsız değişkeni, kullanılan model ile ne derece açıkladığını göstermektedir. $R^2$ değeri 0 ile 1 arasında değerler almaktadır. Bu ölçüt 1’e ne kadar yakın ise modelin değişiminin o derece iyi açıklandığı söylenmektedir.
+
+Yanlılık-Varyans ikilemi: MSE ölçütünün farklı bir şekilde ele alınması olarak düşünülebilmektedir. MSE ölçütü hesaplandığında veri setindeki verilerin birbirinden bağımsız olduğunu, artıkların ortalamasının sıfır, varyansının sabit ve $\sigma^{2}$ olduğunu varsayılsın. Bu durum şu şekilde bir denklem ile ifade edilir.
+
+$$
+\mathrm{E}[\mathrm{MSE}]=\sigma^{2}+(\text { Model yanlılığı})^{2}+\text { model varyansı }
+$$
+
+Burada; **E** beklenen değeri temsil ederken, $\sigma^{2}$ azaltılamayan gürültü değerini temsil etmektedir. İkinci terim model yanlılık değerinin karesi olup, tahmin edilen değerler ile olması gereken değerler arasındaki yakınlığı temsil etmektedir.
+Varyansı düşük olan algoritmalar, karmaşıklığı daha az ve daha sabit alt yapıya sahip algoritmalar iken, yanlılığı düşük olan algoritmalar daha karmaşık ve daha esnek yapıya sahip algoritmalardır (Zhang vd., 2006). Karmaşıklığı çok düşük olan algoritmalar veriye tam uymaz ve veriden yeterince öğrenemezler. Oldukça karmaşık olan algoritmalar ise veriye aşırı uygunluk/uyum (overfitting) gösterirler, yani veriden öğrenmek yerine ezberleme yoluna giderler (Cao ve Tay, 2003 s,210).
+
+İyi bir tahmin modelinde, toplam hatayı en küçükleyecek şekilde yanlılık-varyans dengesi kurulmalıdır. Bunu başarabilmek için izlenebilecek bazı yöntemler şu şekildedir: 
+
+* Veriyi eğitim ve test kümesi olarak ayırmak
+* Uygun olan algoritmaları denemek 
+* Model parametrelerini uydurmak 
+* Etkili parametre ayarlamaları yapmak 
+* Uygun performans ölçütleri kullanmak
+* Sistematik çapraz doğrulama kullanmak
+
+### Sınıflandırma
+
+Sınıflandırma, verileri benzerliklerine ve farklılıklarına uygun şekilde birbirlerinden ayırmak/gruplamak için kullanılan bir yöntemdir (Sayad, 2008). Sınıflandırma yöntemleri, veri setinin iki veya çok boyutlu düzlem üzerindeki dağılımına uygun şekilde, birbirine benzer özellikler taşıyan örneklerin her birinin kendi içinde gruplanmasını sağlamak amacıyla, en uygun fonksiyonu belirlemek için kullanılır.
+
+Problemdeki her girdi vektörünü, sonlu sayıdaki bir ayrık kategoriye atamayı amaçlayan durumlar, **sınıflandırma** (classification) problemi olarak ele alınmaktadır (Bishop, 2007 s,165).
+
+Sınıflandırma problemlerinde çıktı uzayındaki her bir eleman birer **sınıf** (class), sınıflandırma problemini çözen algoritmaya da **sınıflandırıcı** (classifier) adı verilmektedir (Camastra ve Vinciarelli, 2008 s,147).
+
+Sınıflandırma, her verinin hangi sınıfa ait olduğu bilindiği bir veri setinin eğitilerek, yeni gelecek bir test verisinin hangi sınıfa ait olduğunun tahmin edilmesi üzerine çalışır. 
+
+Makine öğrenmesinde sınıflandırma için kullanılan Naive Bayes Sınıflandırıcı, k-En Yakın Komşu Algoritması, Karar Ağaçları, Yapay Sinir Ağları, Destek Vektör Makineleri gibi çok sayıda algoritma mevcuttur. Bir sınıflandırıcı, bir başka ifade ile bir sınıflandırma modeli (classification model), örneklerden tahmin edilen sınıflara doğru bir haritalamadır (Fawcett, 2006 s,176).
+
+Bu çalışmada karar ağacı algoritmalarından CART algoritması uygulanmıştır.
+
+#### CART Algoritması
+
+CART algoritması, ağaç yapısına dayalı olarak sınıflandırma ve regresyon modellerinin türetilmesi için yaygın olarak kullanılan bir istatistiksel prosedürdür. CART ağaç modeli, tek değişkenli ikili kararların bir hiyerarşisini içerir. CART verileri iki alt kümeye ayırdığı için her bir alt küme içindeki durumlar, bir önceki alt kümeden daha homojen olacaktır. Bu ardışık süreç, homojenlik kriterine ulaşılıncaya veya diğer bazı durma kriterleri sağlanıncaya kadar kendini tekrar eder. Aynı kestirim değişkeni ağaçta farklı düzeylerde pek çok kez kullanılabilir. Ağacın yapısı önceden belirlenmemekte, verilerden türetilmektedir (Answer Tree 3.0 User's Guide, 2001 s,189). 
+
+CART, kök düğümünde, verilerin iki gruba bölünmesi için en iyi değişkenin seçilmesini sağlar ve farklı bölümlendirme (splitting) kriterleri kullanır. Bu bölümlendirme kriterlerinin tümü, her bir alt kümedeki sınıf etiketlerini mümkün olduğunca homojen olacak biçimde bölümlendirir (Classification and Regression Trees: An Introduction, 2003: s,12). Bölümlendirme prosedürü çocuk düğümlere (child node) veya alt düğümlerin her birine ardışık olarak uygulanır (Hand, Manila ve Smyth, 2001 s,147).
+
+CART ağaçları, kesin bir heterojenlik (impurity) ölçüsüne bağlı olarak düğümlere ayrılmış iki değerli (binary) ağaçlardır ve bu nedenle de sonuçta homojen dallar oluşmaktadır (Ahola ve Rinta-Runsala, 2001 s,17). Ağacın hedefi benzer veya aynı çıktı değerlerine sahip olma eğiliminde olan alt gruplar yaratmaktır. CART modelleri için bölünmelerin bulunmasında kullanılan dört farklı heterojenlik ölçüsü mevcuttur. Kategorik hedef degişkenler için Gini. Twoing veya (sıralayıcı hedef değişkenleri için) sıralı Twoing. sürekli hedef değişkenler için ise en küçük kareli sapma (LSD) kullanılabilir.
+
+**Gini indeksi** aşağıdaki şekilde yazılabilir:
+$$
+g(t)=1-\sum_{j} p^{2}(j / t)
+$$
+Her hangi bir düğümde durumlar kategoriler arasında eşit biçimde dağıldığında, Gini indeksi $1-\frac{1}{k}$ maksimum değerini alır. Bir düğümdeki durumlar aynı Bir düğümdeki durumlar aynı kategoriye ait olduğunda ise Gini indeksi 0'a eşit olacaktır (Apte ve Weiss,1997 s,41). 
+
+**Twoing indeksi**, hedef değişken kategorilerinin iki süper sınıfa bölümlendirilmesine dayalıdır ve ardından bu iki süper sınıfa dayalı olarak kestirim değişkenindeki en iyi bölünmeyi bulur. $t$ düğümünde $s$ bölünmesi için Twoing kriter fonksiyonu şu şekilde tanımlanabilir (Answer Tree 3.0 User's Guide, 2001 s,194):
+
+$$
+\Phi_{(s, t)}=p_{L} p_{R}\left\lfloor\left|\sum_{j} p\left(\frac{j}{t_{L}}-p\left(\frac{j}{t_{R}}\right)\right)\right|\right\rfloor
+$$
+Fonksiyonda yer alan ${t_{L}}$ ve ${t_{R}}$, s bölünmesi tarafından yaratılan düğümleri göstermektedir. s bölünmesi, bu kriteri maksimize eden bölünme olarak belirlenir. İki süper sınıf olan C1 ve C2 aşağıdaki biçimde tanımlanabilir: 
+
+
+$$
+\begin{array}{c}C_{1}=\left\{J: p\left(\frac{j}{t_{L}}\right) \geq p\left(\frac{j}{t_{R}}\right)\right\} \\C_{2}=C-C_{1}\end{array}
+$$
+Burada $C$, hedef değişkenin kategori kümesidir.
+
+**Sıralı Twoing indeksi**, sıralayıcı hedef değişkenleri için Twoing indeksinin değiştirilmiş şeklidir. Sıralı Twoing kriterindeki farklılık yalnızcabitişik kategorilerin süper sınıflar ile birleştirilmesidir. Örneğin bir değişkenin 4 kategorisi olsun. Twoing kriteri i ve 4'ü bir süper sınıf ve 2 ve 3' ü de diğer bir süper sınıf olarak belirlemiş olsun. Bununla beraber kategoriler sıralı olduğundan 1 ve 4 kategorileri birleştirilemez çünkü bunlar bitişik kategoriler değillerdir. Sıralı Twoing indeksi bu durumu göz önüne aldığından i ve 4 gibi kategoriler bitişik olmadığından birleştirilemez.
+
+**En küçük kareli sapma (LSD)** heterojenlik ölçüsü sürekli hedef değişkenleri için kullanılmaktadır. LSD ölçüsü R(t), t düğümü için basit (ağırlıklandırılmış) düğüm içi varyansıdır ve düğüm için risk tahminine eşittir. R(t)' nin formülü aşağıdaki şekildedir (Answer Tree 3.0 User's Guide,2001 s,195):
+$$
+R(t)=\frac{1}{N_{w}(t)} \sum w_{n} f_{n}\left(y_{1}-y(t)\right)^{2}
+$$
+$N_w(t)$, $t$ düğümündeki ağırlıklandırılımış durum sayısı, $w_n$'nin durumu için mevcut ise ağırlıklandırılımış değişken değeri, $f_n$ mevcut ise frekans değişkeninin değerini, $y_1$ hedef değişkenin değerini ve $y(t)$ ise $t$ düğümü için ağırlıklı ortalamayı göstermektedir.
+
+Sonuçta elde edilen ağacın büyüklüğü, karmaşık budama sürecinin bir sonucudur. Çok büyük bir ağaç, uyumun üzerinde (overfitting) ve çok küçük ağaç, yetersiz tahmin gücüne sahip olacaktır. Ağaç yapısının hiyerarşik formu, CART gibi algoritmaları ağaç yapısına dayanmayan diğer sınıflandırma algoritmalarından açık bir şekilde ayırır.
+
+#### Sınıflandırma Performansını Ölçme Yöntemleri
+
+Regresyon modellemesinde sıkça kullanılan RMSE veya R2 ölçütleri sınıflandırma yöntemlerinin performansını ölçmek için uygun değildir. Bu tarz problemler için kullanılabilecek ölçütlerden bazıları şu şekildedir; Log-Kaybı (Log-Loss), Karmaşıklık Matrisi (Doğruluk), F1 skoru ve Eğri Altında Kalan Alan (Area Under Curve - AUC).
+
+##### Log-Kaybı
+
+Logaritmik kayıp oldukça önemli bir performans ölçütüdür. Tahmin değerinin 0 ile 1 arasında bir olasılık değeri olduğu durumlarda sınıflandırma modelinin performansını ölçer. Mükemmel modelin Log-Kaybı değeri sıfırdır. Makine öğrenmesi modelimizin hedefi bu değeri 0'a yaklaştırmak olmalıdır. Örneğin, doğru etiket değeri 1 olan bir örnek için yaptığımız tahminin 0.023 gibi bir değer çıkması, yüksek Log-Kaybı olduğu ve kötü bir model kurulduğu anlamına gelmektedir. 
+
+##### Karmaşıklık (Hata) Matrisi
+
+İki veya çok sınıflı sınıflandırma probleminde, modelin doğruluğunu ölçmek için yaygın şekilde kullanılan ve anlaşılması basit bir matristir. Bu matrisi bir örnek üzerinden açıklamak adına hedef değişkenimiz için aşağıdaki iki etiketi kullandığımızı varsayalım: 
+
+- "0": Kişide test edilen hastalık bulunmamaktadır.
+- "1": Kişide test edilen hastalık bulunmaktadır.
+
+Bu etiketlerle sınıflandırma yapıldığında oluşacak karmaşıklık matrisi Şekil 1.6'da gösterilmiştir. Matriste yer alan bilgiler kısaca aşağıdaki gibidir:  
+
+***Doğru Pozitif (DP):** 	Verinin gerçek değerinin pozitif (1) ve tahmin edilen değerin de 	pozitif (1) olduğu durum.
+
+
+***Doğru Negatif (DN):** 	Verinin gerçek değerinin negatif (0) ve tahmin edilen değerin de 	negatif (0) olduğu durum.
+
+
+***Yanlış Pozitif (YP):** 	Verinin gerçek değerinin negatif (0) fakat tahmin edilen değerin 	pozitif (1) olduğu durum.
+
+
+***Yanlış Negatif (YN):** 	Verinin gerçek değerinin pozitif (1) fakat tahmin edilen değerin 	negatif (0) olduğu durum.
+
+
+
+|        |         | Tahmin Edilen |         |
+| -----: | ------: | :-----------: | :-----: |
+|        |         |    Pozitif    | Negatif |
+| Gerçek | Pozitif |      DP       |   YN    |
+| Durum  | Negatif |      YP       |   DN    |
+
+Table: (\#tab:inher) Karmaşıklık Matrisi
+
+###### Doğruluk (Accuracy) 
+
+Sınıflandırma problemlerinde doğru tahminlerin bütün tahminlere oranıdır ve hesaplama formülü aşağıdaki gibidir. 
+$$
+\text { Doğruluk }=\frac{D P+D N}{D P+D N+Y P+Y N}
+$$
+Hedef değişken sınıflarının veri kümesinde dengeli dağıldığı durumlarda Doğruluk ölçütünü kullanmak mantıklıdır. Fakat birçok gerçek hayat probleminde, bu dengeyi yakalamak zordur. Bu dengenin olmadığı ve bir sınıf değerinin çoğunlukta olduğu durumlarda ACC ölçütünün kullanılması önerilmez.
+
+###### Kesinlik (Precision)
+
+Kesinlik ölçütü, pozitif tahminde bulunduğumuz verilerin gerçekte hangi oranda pozitif olduğu sorusuna cevap verir ve hesaplama formülü aşağıdaki gibidir.
+$$
+\text {Kesinlik}=\frac{D P}{D P+Y P}
+$$
+
+###### Hassaslık (Sensitivity)
+
+Aynı zamanda 'Doğru Pozitif Oranı (DPO)' olarak da adlandırılan bu ölçüt, gerçekte pozitif olanların ne kadarının doğru tahmin edildiğini ölçer ve hesaplama formülü aşağıdaki gibidir. 
+$$
+\text {Hassaslik}=\frac{D P}{D P+Y N}
+$$
+Kesinlik ölçütü, sınıflandırıcı performansını yanlış pozitifler ile açıklarken, yakalama ölçütü bu performansı yanlış negatifler ile açıklar. Problem tipimize ve hipotezimize bağlı olarak, hangi ölçütü iyileştirmeye çalışacağımızı belirlemeliyiz. 
+
+###### Belirlilik (Specifity)
+
+Aynı zamanda 'Doğru Negatif Oranı' olarak da adlandırılan bu ölçüt gerçekte negatif olanların ne kadarının doğru tahmin edildiğini ölçer ve hesaplama formülü aşağıdaki gibidir.
+
+$$
+\text {Belirlilik}=\frac{D N}{D N+Y P}
+$$
+
+##### F1 Skoru
+
+Her seferinde kesinlik ve yakalama ölçütleri ile ayrı ayrı uğraşmak yerine ikisini birlikte temsil eden bir sınıflandırma performans ölçütü kullanmak mümkündür. Kesinlik ve yakalama ölçütlerinin ağırlıklı ortalamaları ile hesaplanan F1 Skorunun, doğruluk ölçütünden (ACC) daha kullanışlı olduğunu söylemek mümkündür. Hesaplama formülü aşağıdaki gibidir. 
+$$
+\text {F1 Skoru} =\frac{2 * \text { Kesinlik} * \text { Hassaslik }}{\text { Kesinlik }+\text { Hassaslik }}
+$$
+
+
+### Sınama ve Geçerleme
+
+Denetimli öğrenme uygulamalarında, kullanılan algoritmanın başarısının sınanması için elimizdeki veri kümesinin; eğitim ve test kümesi olarak ayrılması gerekmektedir. Ayırma işlemi çeşitli şekillerde yapılabilir. 
+
+#### Sabit Ayırma
+
+Klasik veri ayırma yöntemi olup, veri kümesi %80 eğitim ve %20 test olacak şekilde ayrılır (%66 – %34 gibi değerler de kullanılabilir). En büyük dezavantajı, verinin dağılımına göre bazı yanlılık durumlarının ve hataların oluşabilmesidir. 
+
+#### K-Katlamalı Çapraz Doğrulama
+
+Bu yöntemde veri kümesi k sayısı kadar eşit parçaya bölünür ve her parçanın hem eğitim hem de test için kullanılması sağlanır. Bu sayede test kümesi seçimi yaparken oluşan yanlılık ortadan kaldırılmış olur. Aşağıdaki örnekte, k sayısının 5 seçildiğini düşünelim. Veri kümesi 5 eşit parçaya bölünür ve seçilen algoritma, eğitim ve test aşamalarını bu 5 parçayı da kullanarak gerçekleştirir. 
+
+* Model 1: (Parça 1 + Parça 2 + Parça 3 + Parça 4) eğitim kümesi, Parça 5 test kümesi
+* Model 2: (Parça 1 + Parça 2 + Parça 3 + Parça 5) eğitim kümesi, Parça 4 test kümesi
+* Model 3: (Parça 1 + Parça 2 + Parça 4 + Parça 5) eğitim kümesi, Parça 3 test kümesi
+* Model 4: (Parça 1 + Parça 3 + Parça 4 + Parça 5) eğitim kümesi, Parça 2 test kümesi
+* Model 5: (Parça 2 + Parça 3 + Parça 4 + Parça 5) eğitim kümesi, Parça 1 test kümesi  	
+
+```{r,fig.cap="K-Katlamalı Çapraz Doğrulama", echo=FALSE, cache=TRUE, out.width = '100%', fig.align = "center"}
+include_graphics(path = "figure/kk.png")
+```
+
+## Denetimsiz Öğrenme
+
+Veri kümesindeki örneklerin herhangi bir etiketle (sınıfla) ayrıştırılmadığı ve etiket sayısının bilinmediği durumda kullanılan öğrenme yöntemidir (Yıldırım ve Birant, 2018). Literatürde en çok kullanılan denetimsiz öğrenme yöntemi, birbirine benzeyen örneklerin bir araya getirilmesini (gruplanmasını/kümelenmesini) amaçlayan Kümelemedir. Örneğin, bir alışveriş sitesini ele alalım. Siteyi kullanan müşterilerin farklı özelliklerini ve geçmişte yaptıkları, site içi gezinme, sepete atma, alışveriş yapma vb. bilgileri barındıran bir veri kümesinde, benzer davranışları gerçekleştiren müşterileri gruplamak mümkündür.
+
+Kümeleme yöntemlerinin çoğu, veri örnekleri arasındaki uzaklık/yakınlık bilgisini kullanarak benzerlik bulma ve gruplama işlemini gerçekleştirmektedir. Verilerin benzerliğinin bulunmasında, basit bir uzaklık ölçütü (Öklid, Manhattan, Minkowski) kullanılabilir. Bunun dışında, yoğunluk ve komşuluk gibi özel hesaplamalar da benzerlik bulma için kullanılabilir.
+
+Kümeleme işleminde kullanılan 5 farklı veri gruplama yaklaşımı bulunmaktadır.
+
+1. Bölümleme Tabanlı (Partitioning) Yöntemler (K-Ortalamalar, K-Medoid, PAM, CLARA) 
+2. Hiyerarşik Yöntemler (AGNES, DIANA)
+3. Yoğunluk Tabanlı Yöntemler (DBSCAN, OPTICS)
+4. Model Tabanlı Yöntemler (EM)
+5. Izgara Tabanlı Yöntemler (CLIQUE)
+
+### Sonuçları İyileştirme
+
+Bir veri bilimi çalışması yaparken verimli ve yüksek performanslı bir model oluşturmak kolay değildir. Genellikle en büyük çaba, veri keşfi ve doğru makine öğrenmesi algoritmasını seçmek üzerine olsa da sonuçları iyileştirmek için yapacağımız çalışmalara projenin en başından itibaren başlamalıyız. Aynı zamanda şunu da unutmamak gerekir; bir makine öğrenmesi uygulaması yaparken, kullandığımız algoritma veya algoritmaların performansları bize makul derece iyi görünebilir, fakat elde ettiğimizin en iyi sonuç olup olmadığını tek seferde bilemeyiz. Dolayısıyla, birkaç yöntem kullanarak, elde ettiğimiz sonuçların iyileştirilmesi üzerine çalışmalar yapmamız sağlıklı olacaktır.
+
+**Algoritma Ayarı (Algorithm Tuning):** Birçok gerçek hayat probleminde kullanılan algoritma, var olan (varsayılan) parametreleri ile en iyi sonucu vermeyebilir. En iyi sonucu elde etmek için belli bir kalıbı kullanmak yerine, çalışılan veri kümesine ve algoritmaya özel algoritma parametre ayarı yapılması önemlidir. Bu aşamada ilk yapılması gereken, algoritmanın parametreleri için birden fazla kombinasyonun denenerek en iyi alınan sonuçları saklamaktır. Daha sonra saklanan parametreler üzerinde küçük değişiklikler yapılarak daha iyi bir sonuç elde etmeye çalışılabilir.
+
+**Topluluk Yöntemleri (Ensemble Methods):** Topluluk yöntemleri adından da anlaşılabileceği üzere, birden çok sonucu birlikte değerlendirmeyi ifade eder. Problemin yapısına göre tamamını çözmek için bir algoritma kullanmaktansa birçok aşamasında birden fazla algoritma kullanılabilir. Birden çok algoritmanın sonuçlarını birleştirerek alacağımız sonuç, yalnızca bir yöntem izleyerek alacağımız çözümden daha performanslı olacaktır.
+
+**Veri Miktarını Büyütme:** Birçok deneme yapmamıza rağmen tahminlerimiz yüksek varyansa sahip olabilir. Her senaryoda veri miktarını büyütmek mümkün olmayabilir, bu tarz durumlarda diğer bir seçenek de eğitim veri kümesini büyütmek olabilir. Örnek sayısını yeni verilerle büyüterek algoritmanın daha iyi öğrenmesini sağlayabiliriz. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
