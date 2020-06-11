@@ -3,7 +3,7 @@
 </p>
 
 # Sınıflandırma için Makine Ögrenmesi BP Projesi
-"Sınıflandırma için Makine Öğrenmesi Projesi" DEÜ Fen Fakültesi İstatistik Bölümü 2019-2019 Bitirme Projesi kapsamında RStudio programında rmarkdown paketi ile yapılmıştır.
+"Sınıflandırma için Makine Öğrenmesi Projesi" DEÜ Fen Fakültesi İstatistik Bölümü 2019-2020 Bitirme Projesi kapsamında RStudio programında rmarkdown paketi ile yapılmıştır.
 
 Yazar: Hüseyin Cem ARAS </br>Yazar: İbrahim Berkay ÖZ </br>Danışman: Doktor Öğretim Üyesi Özgül VUPA ÇİLENGİROĞLU </br>Çalışma Ortağı: SANEM Plastik Tasarım Merkezi Müdürü Alim Fatih KILINÇ
 
@@ -17,9 +17,9 @@ Bu çalışma ile üretim yapan fabrikaların verisinde makine öğrenimi kapsam
 Proje hakkında detaylı bilgi edinmek için _proje dökümanlarına_ gözatabilirsiniz.
 
 ## Proje Dökümanları
-- [Proje Rapor](/pdfs/Rapor.pdf)
-- [Proje Sunumu](/pdfs/Sunum.pdf)
 - [Proje Posteri](/pdfs/Poster.pdf)
+- [Proje Sunumu](/pdfs/Sunum.pdf)
+- [Proje Rapor](/pdfs/Rapor.pdf)
 
 Bu projede DEÜ Fen Fakültesi İstatistik Bölümünün [Bitirme Projeleri](http://istatistik.deu.edu.tr/index.php/tr/bitirme-projeleri/) için hazırlamış olduğu template kullanılmıştır.
 
