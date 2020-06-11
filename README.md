@@ -5,11 +5,7 @@
 # Sınıflandırma için Makine Ögrenmesi BP Projesi
 "Sınıflandırma için Makine Öğrenmesi Projesi" DEÜ Fen Fakültesi İstatistik Bölümü 2019-2019 Bitirme Projesi kapsamında RStudio programında rmarkdown paketi ile yapılmıştır.
 
-Yazarlar: Hüseyin Cem ARAS, İbrahim Berkay ÖZ
-
-Danışman: Doktor Öğretim Üyesi Özgül VUPA ÇİLENGİROĞLU
-
-Çalışma Ortağı: SANEM Plastik Tasarım Merkezi Müdürü Alim Fatih KILINÇ
+Yazar: Hüseyin Cem ARAS </br>Yazar: İbrahim Berkay ÖZ </br>Danışman: Doktor Öğretim Üyesi Özgül VUPA ÇİLENGİROĞLU </br>Çalışma Ortağı: SANEM Plastik Tasarım Merkezi Müdürü Alim Fatih KILINÇ
 
 ## Hakkında
 İzmir ili Torbalı ilçesinde plastik masa örtüsü üretimi gerçekleştiren SANEM PLASTİK adlı fabrikadan alınan 2018-2019 yılları arasındaki veriler ile **Makine Öğrenmesi** algoritmalarını kullanarak model oluşturulup, modele göre fabrikanın verimliliğini arttırmaktır. Bağımlı değişken **OEE**'dir.
