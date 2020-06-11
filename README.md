@@ -1,4 +1,6 @@
-<img src="index/figure/makine-ogrenmesi.png" width="70%" align="center" />
+<p align="center">
+  <img src="index/figure/makine-ogrenmesi.png" width="70%"  />
+</p>
 
 # Sınıflandırma için Makine Ögrenmesi BP Projesi
 "Sınıflandırma için Makine Öğrenmesi Projesi" DEÜ Fen Fakültesi İstatistik Bölümü 2019-2019 Bitirme Projesi kapsamında RStudio programında rmarkdown paketi ile yapılmıştır.
