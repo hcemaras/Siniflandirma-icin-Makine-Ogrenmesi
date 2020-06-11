@@ -1,3 +1,5 @@
+<img src="index/figure/makine-ogrenmesi.png" width="70%" align="center" />
+
 # Sınıflandırma için Makine Ögrenmesi BP Projesi
 "Sınıflandırma için Makine Öğrenmesi Projesi" DEÜ Fen Fakültesi İstatistik Bölümü 2019-2019 Bitirme Projesi kapsamında RStudio programında rmarkdown paketi ile yapılmıştır.
 
@@ -12,7 +14,6 @@ Danışman: Doktor Öğretim Üyesi Özgül VUPA ÇİLENGİROĞLU
 
 Overall Equipment Effectiveness” kısaltmasıdır. Türkçe çevirisi Toplam Ekipman Etkinliği’dir. OEE bütün ekipmanların ne ölçüde kullanıldığına işaret eden bir TPM(total productive maintenance) hesabıdır. Arızalar, ekipman ayarları, duruşlar, çalışma hızındaki azalmalar, ıskartalar ve yeniden işlem gibi kayıplar üzerine düşer.
 
-![Makine Öğrenmesinde Kullanılan Yöntemler](index\figure\makine-ogrenmesi.png)
 
 Bu çalışma ile üretim yapan fabrikaların verisinde makine öğrenimi kapsamında yer alan sınıflandırma modellerinden lojistik regresyon ve CART modellerinin uygulanabilirliği tespit edilmiştir. Bu tip verilerde değişik sınıflandırma algoritmaları da kullanılabilir. Ayrıca bu algoritmaların performansları da karşılaştırılabilir.
 
