@@ -32,8 +32,10 @@ Bu projede DEÜ Fen Fakültesi İstatistik Bölümünün [Bitirme Projeleri](htt
 - [R](https://cloud.r-project.org/)
 - [RStdio](https://rstudio.com/products/rstudio/download/)
 
-![DEÜ](https://edebiyat.deu.edu.tr/wp-content/uploads/DEU-Logo-PNG-250x250.png | width=100)
+![DEÜ](https://edebiyat.deu.edu.tr/wp-content/uploads/DEU-Logo-PNG-250x250.png, width=100)
+
 ![FenF.](https://fen.deu.edu.tr/wp-content/uploads/2020/04/Fen-Fakultesi-Logo-250x250.png | width=100)
+
 ![İstatistik Bölümü](http://istatistik.deu.edu.tr/wp-content/uploads/2019/02/300-dpi-istatistik-logo-22.png | width=100)
 
 <img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/RStudio.png" width="120" align="right" />
