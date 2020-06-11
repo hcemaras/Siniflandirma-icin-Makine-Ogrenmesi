@@ -33,8 +33,10 @@ Bu projede DEÜ Fen Fakültesi İstatistik Bölümünün [Bitirme Projeleri](htt
 - [RStdio](https://rstudio.com/products/rstudio/download/)
 
 
-<center>
-<img src="https://edebiyat.deu.edu.tr/wp-content/uploads/DEU-Logo-PNG-250x250.png" width="100" height="100" /> <img src="https://fen.deu.edu.tr/wp-content/uploads/2020/04/Fen-Fakultesi-Logo-250x250.png" width="95" height="95" /> <img src="http://istatistik.deu.edu.tr/wp-content/uploads/2019/02/300-dpi-istatistik-logo-22.png" height="100" />
 
-<img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/RStudio.png" height="100" /> <img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png" height="100" /> <img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/knitr.png" height="100" /> <img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png" height="100" /> <img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png" height="100" />
-</center>
+<p align="center">
+  <img src="https://edebiyat.deu.edu.tr/wp-content/uploads/DEU-Logo-PNG-250x250.png" width="100" height="100" /> <img src="http://istatistik.deu.edu.tr/wp-content/uploads/2019/02/300-dpi-istatistik-logo-22.png" height="100" /> <img src="https://fen.deu.edu.tr/wp-content/uploads/2020/04/Fen-Fakultesi-Logo-250x250.png" width="95" height="95" />
+</br>
+  <img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/RStudio.png" height="100" /> <img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png" height="100" /> <img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/knitr.png" height="100" /> <img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/readr.png" height="100" /> <img src="https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/ggplot2.png" height="100" />
+
+</p>
